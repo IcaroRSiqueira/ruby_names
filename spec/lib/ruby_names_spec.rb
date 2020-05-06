@@ -2,11 +2,15 @@ require 'spec_helper'
 require 'ruby_names'
 
 describe "ruby_names" do
-  it "displays welcome message" do
+
+  it "displays welcome message and uf selected" do
     printed = capture_stdout do
-      load "./lib/ruby_names.rb"
+      RubyNames.welcome
     end
 
-    expect(printed).to eq("Bem vindo ao RubyNames!\n")
+    expect($stdout).to include("Bem vindo ao RubyNames!\n")
+    expect(printed).to include("Digite o UF para saber quais são os nomes mais comuns no estado\n")
+    allow($stdin).to receive(:gets).and_return("SP\n")
+    expect(printed).to include("O estado escolhido é SP\n")
   end
 end
