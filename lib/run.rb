@@ -1,3 +1,4 @@
 require_relative 'ruby_names.rb'
+puts 'Bem vindo ao RubyNames!'
 
-RubyNames.welcome
+RubyNames.choose_decade
