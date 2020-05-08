@@ -1,9 +1,8 @@
 require 'spec_helper'
 require 'net/http'
 
-describe "ruby_names" do
-
-  it "displays frequency of the names during ages correctly" do
+describe "decade_name" do
+  it "when 1 name" do
     allow($stdin).to receive(:gets).and_return("1\n", "joao\n")
     json = File.read('./spec/support/joao_test.json')
     url = "https://servicodados.ibge.gov.br/api/v2/censos/nomes/joao"
@@ -16,6 +15,7 @@ describe "ruby_names" do
 
     expect { load "./lib/execute.rb" }.to output("Bem vindo ao RubyNames!
 Para pesquisar a frequência de nomes ao longo das décadas digite: 1.
+Para pesquisar os nomes mais comuns por UF digite: 2.
 Para sair do programa digite: sair.
 Digite o nome para saber qual a frequencia do mesmo durante as décadas
 Exibindo resultados para o(s) nome(s) joao:
@@ -37,7 +37,7 @@ Exibindo resultados para o(s) nome(s) joao:
 ").to_stdout
   end
 
-  it "should display more than one name" do
+  it "when multiple names" do
     allow($stdin).to receive(:gets).and_return("1\n", "Joao,Maria\n")
     json = File.read('./spec/support/joao_maria_test.json')
     url = "https://servicodados.ibge.gov.br/api/v2/censos/nomes/joao|maria"
@@ -49,6 +49,7 @@ Exibindo resultados para o(s) nome(s) joao:
 
     expect { load "./lib/execute.rb" }.to output("Bem vindo ao RubyNames!
 Para pesquisar a frequência de nomes ao longo das décadas digite: 1.
+Para pesquisar os nomes mais comuns por UF digite: 2.
 Para sair do programa digite: sair.
 Digite o nome para saber qual a frequencia do mesmo durante as décadas
 Exibindo resultados para o(s) nome(s) joao,maria:
@@ -83,7 +84,7 @@ Exibindo resultados para o(s) nome(s) joao,maria:
 ").to_stdout
   end
 
-  it "should show some error when name provided dont exists" do
+  it "name dont exist" do
     allow($stdin).to receive(:gets).and_return("1\n", "nomequenaoexiste\n")
     json = File.read('./spec/support/empty.json')
     url = "https://servicodados.ibge.gov.br/api/v2/censos/nomes/nomequenaoexiste"
@@ -96,25 +97,27 @@ Exibindo resultados para o(s) nome(s) joao,maria:
 
     expect { load "./lib/execute.rb" }.to output("Bem vindo ao RubyNames!
 Para pesquisar a frequência de nomes ao longo das décadas digite: 1.
+Para pesquisar os nomes mais comuns por UF digite: 2.
 Para sair do programa digite: sair.
 Digite o nome para saber qual a frequencia do mesmo durante as décadas
 Não existem registros para o(s) nome(s) nomequenaoexiste.
 ").to_stdout
   end
 
-  it "should display error message when picking non existent optio" do
+  it "option dont exist" do
     allow($stdin).to receive(:gets).and_return("123131\n")
 
 
 
     expect { load "./lib/execute.rb" }.to output("Bem vindo ao RubyNames!
 Para pesquisar a frequência de nomes ao longo das décadas digite: 1.
+Para pesquisar os nomes mais comuns por UF digite: 2.
 Para sair do programa digite: sair.
 Opção não aceita, insira uma entrada válida
 ").to_stdout
   end
 
-  it "should display error if status code not 200" do
+  it "status not 200" do
     allow($stdin).to receive(:gets).and_return("1\n", "joao\n")
     json = File.read('./spec/support/empty.json')
     url = "https://servicodados.ibge.gov.br/api/v2/censos/nomes/joao"

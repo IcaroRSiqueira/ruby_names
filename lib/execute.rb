@@ -1,9 +1,13 @@
 require_relative 'decade_name.rb'
+require_relative 'uf_name.rb'
 
 def decide(input)
-  if input.to_i == 1
+  case input
+  when "1"
     DecadeName.choose_name
-  elsif input == "sair"
+  when "2"
+    UfName.choose_uf
+  when "sair"
     abort "Saindo do RubyNames, até logo!"
   else
     puts 'Opção não aceita, insira uma entrada válida'
@@ -12,6 +16,7 @@ end
 
 def welcome
   puts 'Para pesquisar a frequência de nomes ao longo das décadas digite: 1.'
+  puts 'Para pesquisar os nomes mais comuns por UF digite: 2.'
   puts 'Para sair do programa digite: sair.'
   input = $stdin.gets.chomp
   decide(input)
