@@ -2,6 +2,7 @@ require 'json'
 require 'terminal-table'
 require 'net/http'
 require "sqlite3"
+require 'byebug'
 
 class UfName
   def self.choose_uf

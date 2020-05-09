@@ -1,12 +1,12 @@
 require 'spec_helper'
 require 'net/http'
 require 'sqlite3'
+require 'byebug'
 
 describe "uf_name" do
   it "success" do
     allow($stdin).to receive(:gets).and_return("2\n", "sp\n")
     db = SQLite3::Database.open "./spec/support/ufs.db"
-    allow_any_instance_of(SQLite3).to receive(:execute).with("select * from uf").and_return(db)
     allow_any_instance_of(SQLite3).to receive(:new).and_return(db)
 
     json_db = File.read('./spec/support/ufs_db.json')
@@ -25,15 +25,13 @@ describe "uf_name" do
     uri_fem = URI.parse(URI.escape(url_fem))
 
     object_db = double
-    object_geral = double
-    object_masc = double
-    object_fem = double
+    response = double
 
-    allow(Net::HTTP).to receive(:get_response).exactly(4).times.and_return(object_db, object_geral, object_masc, object_fem)
+    allow(Net::HTTP).to receive(:get_response).and_return(object_db, response)
     allow(object_db).to receive(:body).and_return(json_db)
-    allow(object_geral).to receive(:body).and_return(json_geral)
-    allow(object_masc).to receive(:body).and_return(json_masc)
-    allow(object_fem).to receive(:body).and_return(json_fem)
+    expect(response).to receive(:body).and_return(json_geral, json_masc, json_fem)
+    allow(object_db).to receive(:code).and_return(200)
+    allow(response).to receive(:code).and_return(200)
 
     expect { load "./lib/execute.rb" }.to output("Bem vindo ao RubyNames!
 Para pesquisar a frequência de nomes ao longo das décadas digite: 1.
