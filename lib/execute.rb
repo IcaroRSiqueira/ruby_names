@@ -2,15 +2,16 @@ require_relative 'decade_name.rb'
 require_relative 'uf_name.rb'
 
 def decide(input)
-  case input
+  case input.downcase
   when "1"
     DecadeName.choose_name
   when "2"
     UfName.choose_uf
   when "sair"
-    abort "Saindo do RubyNames, até logo!"
+    puts "Saindo do RubyNames, até logo!"
   else
     puts 'Opção não aceita, insira uma entrada válida'
+    welcome
   end
 end
 

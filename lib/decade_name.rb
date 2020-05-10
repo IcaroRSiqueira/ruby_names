@@ -14,9 +14,10 @@ class DecadeName
     response = Net::HTTP.get_response(URI.parse(URI.escape(url)))
     DecadeName.check_status(response.code)
     decades = JSON.parse(response.body, symbolize_names: true)
-    return puts "Não existem registros para o(s) nome(s) #{input}." if decades.empty?
+    return welcome if DecadeName.name_valid?(decades, input) == false
     puts "Exibindo resultados para o(s) nome(s) #{input}:"
     puts DecadeName.table_maker(decades)
+    welcome
   end
 
   def self.table_maker(decades)
@@ -56,6 +57,13 @@ class DecadeName
   def self.check_status(code)
     unless code.to_i == 200
       raise "Sem conexão com o servidor no momento."
+    end
+  end
+
+  def self.name_valid?(decades, input)
+    if decades.empty?
+      puts "Não existem registros para o(s) nome(s) #{input}."
+      false
     end
   end
 end

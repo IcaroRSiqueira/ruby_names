@@ -27,6 +27,7 @@ class UfName
     UfName.table_maker(general, 'Geral')
     UfName.table_maker(male, 'Nomes masculinos')
     UfName.table_maker(female, 'Nomes femininos')
+    welcome
   end
 
   def self.check_uf_initials(input)
