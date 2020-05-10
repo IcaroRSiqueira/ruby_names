@@ -7,15 +7,20 @@ require 'byebug'
 class UfName
   def self.choose_uf
     puts 'Digite a sigla da UF (exemplo: SP) para saber quais os nomes mais comuns no estado'
-    input = $stdin.gets.chomp
+    input = $stdin.gets.chomp.upcase
     UfName.select_uf(input)
   end
 
   def self.select_uf(input)
     uf = UfName.check_uf_initials(input)
-    url_all = "https://servicodados.ibge.gov.br/api/v2/censos/nomes/ranking?localidade=#{uf[0]}"
-    url_mal = "https://servicodados.ibge.gov.br/api/v2/censos/nomes/ranking?localidade=#{uf[0]}&sexo=M"
-    url_fem = "https://servicodados.ibge.gov.br/api/v2/censos/nomes/ranking?localidade=#{uf[0]}&sexo=F"
+    begin
+      url_all = "https://servicodados.ibge.gov.br/api/v2/censos/nomes/ranking?localidade=#{uf[0]}"
+      url_mal = "https://servicodados.ibge.gov.br/api/v2/censos/nomes/ranking?localidade=#{uf[0]}&sexo=M"
+      url_fem = "https://servicodados.ibge.gov.br/api/v2/censos/nomes/ranking?localidade=#{uf[0]}&sexo=F"
+    rescue
+      puts 'Entrada não aceita.'
+      return UfName.choose_uf
+    end
     general = UfName.names_getter(url_all)
     male = UfName.names_getter(url_mal)
     female = UfName.names_getter(url_fem)
@@ -30,19 +35,9 @@ class UfName
     if db.execute( "select * from uf" ).empty?
       UfName.get_states(db)
     end
-    n = 0
-    uf = nil
-    db.execute( "select * from uf" ) do |row|
-      if row[1] == input.upcase
-        uf = row
-        n += 1
-      end
+    db.execute( "select * from uf where sigla='#{input}'" ) do |row|
+      return row
     end
-    if n == 0
-      puts 'Entrada não aceita.'
-      UfName.choose_uf
-    end
-    uf
   end
 
   def self.get_states(db)
