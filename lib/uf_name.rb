@@ -24,9 +24,9 @@ class UfName
     general = UfName.names_getter(url_all)
     male = UfName.names_getter(url_mal)
     female = UfName.names_getter(url_fem)
-    UfName.table_maker(general, 'Geral')
-    UfName.table_maker(male, 'Nomes masculinos')
-    UfName.table_maker(female, 'Nomes femininos')
+    UfName.table_maker(general, 'Geral', uf)
+    UfName.table_maker(male, 'Nomes masculinos', uf)
+    UfName.table_maker(female, 'Nomes femininos', uf)
     welcome
   end
 
@@ -82,17 +82,30 @@ class UfName
     names
   end
 
-  def self.table_maker(names, title)
+  def self.table_maker(names, title, uf)
+    population = UfName.get_total_population(uf[0])
     rows = []
     rows << :separator
-    rows << ["#{title}", " "]
-    rows << ["Nome:", "Ranking:"]
+    rows << ["#{title}", " ", " "]
+    rows << ["Nome:", "Ranking:", "(%) #{uf[1]}"]
     rows << :separator
     names[0][:res].each do |i|
       rows << ["#{i[:nome]}".tr('[', ''),
-                "#{i[:ranking]}"]
+                "#{i[:ranking]}",
+                "#{(i[:frequencia]/population.to_f * 100).round(4)} %"]
     end
     table = Terminal::Table.new :rows => rows
     puts table
+  end
+
+  def self.get_total_population(sigla_uf)
+    csv = CSV.read('populacao_2019.csv', :quote_char => "|")
+    population = []
+    csv.each do |row|
+      if row[0] == "\"UF\"" && row[1] == "\"#{sigla_uf}\""
+        population << row[3]
+      end
+    end
+    return population[0][/\d+/]
   end
 end
