@@ -6,7 +6,7 @@ require 'byebug'
 describe "uf_name" do
   it "success" do
     allow($stdin).to receive(:gets).and_return("2\n", "sp\n", "sair\n")
-    db = SQLite3::Database.open "./spec/support/ufs.db"
+    db = SQLite3::Database.open "db/ufs.db"
     allow_any_instance_of(SQLite3).to receive(:new).and_return(db)
 
     expect { load "./lib/execute.rb" }.to output("Bem vindo ao RubyNames!

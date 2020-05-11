@@ -10,7 +10,9 @@ Os nomes e identificadores das cidades e UFs, como são informações que mudam 
 
 ## Como iniciar o aplicativo:
 
-* Seu computador deve ter preferencialmente macOS ou O.S Linux;
+* O Ruby Names necessita de conexão com a internet.
+
+* Seu computador deve ter preferencialmente macOS ou O.S Linux, com o Ruby 2.6 instalado.
 
 * Após a clonagem ou download do repositório, mude para o diretório do aplicativo e instale as dependencias necessárias defidas no arquivo `GemFile`, inserindo o comando `bundle install`.
 
@@ -20,6 +22,8 @@ Os nomes e identificadores das cidades e UFs, como são informações que mudam 
 
   * O nome de cidade na opção 3 deve ser sem acento ou pontuação, no caso de apóstrofo o mesmo deve ser substituído por `,`, por exemplo, para pesquisar sobre a cidade Alta Floresta D'Oeste(RO) deve se inserir `alta floresta d,oeste`.
 }
+
+* Para parar imediatamente a execução da aplicação digite `control + c`.
 
 ## Testes:
 

@@ -72,7 +72,7 @@ class DecadeName
   end
 
   def self.get_total_population
-    csv = CSV.read('populacao_2019.csv', :quote_char => "|")
+    csv = CSV.read('db/populacao_2019.csv', :quote_char => "|")
     total = []
     csv.each do |row|
       if row[0] == "\"UF\""

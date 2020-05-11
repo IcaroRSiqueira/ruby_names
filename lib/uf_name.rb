@@ -31,7 +31,7 @@ class UfName
   end
 
   def self.check_uf_initials(input)
-    db = SQLite3::Database.new "ufs.db"
+    db = SQLite3::Database.new "db/ufs.db"
     UfName.create_table(db)
     if db.execute( "select * from uf" ).empty?
       UfName.get_states(db)
@@ -99,7 +99,7 @@ class UfName
   end
 
   def self.get_total_population(sigla_uf)
-    csv = CSV.read('populacao_2019.csv', :quote_char => "|")
+    csv = CSV.read('db/populacao_2019.csv', :quote_char => "|")
     population = []
     csv.each do |row|
       if row[0] == "\"UF\"" && row[1] == "\"#{sigla_uf}\""

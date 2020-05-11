@@ -29,7 +29,7 @@ class CityName
   end
 
   def self.check_city_name(input)
-    db = SQLite3::Database.new "cities.db"
+    db = SQLite3::Database.new "db/cities.db"
     CityName.create_table(db)
     if db.execute( "select * from cities" ).empty?
       CityName.get_cities(db)
@@ -101,7 +101,7 @@ class CityName
   end
 
   def self.get_total_population(city_id)
-    csv = CSV.read('populacao_2019.csv', :quote_char => "|")
+    csv = CSV.read('db/populacao_2019.csv', :quote_char => "|")
     population = []
     csv.each do |row|
       if row[0] == "\"MU\"" && row[1] == "\"#{city_id}\""
