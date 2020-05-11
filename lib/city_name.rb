@@ -82,18 +82,33 @@ class CityName
     names
   end
 
-  def self.table_maker(names, title, uf)
+  def self.table_maker(names, title, city)
+    population = CityName.get_total_population(city[0])
     rows = []
     rows << :separator
-    rows << ["#{title}", "#{uf[1].capitalize}, (#{uf[2]})"]
-    rows << ["Nome:", "Ranking:"]
+    rows << ["#{title}",
+              "#{city[1].capitalize}, (#{city[2]})",
+              "Porcentagem"]
+    rows << ["Nome:", "Ranking:", "(%):"]
     rows << :separator
     names[0][:res].each do |i|
       rows << ["#{i[:nome]}".tr('[', ''),
-                "#{i[:ranking]}"]
+                "#{i[:ranking]}",
+                "#{(i[:frequencia]/population.to_f * 100).round(4)} %"]
     end
     table = Terminal::Table.new :rows => rows
     puts table
+  end
+
+  def self.get_total_population(city_id)
+    csv = CSV.read('populacao_2019.csv', :quote_char => "|")
+    population = []
+    csv.each do |row|
+      if row[0] == "\"MU\"" && row[1] == "\"#{city_id}\""
+        population << row[3]
+      end
+    end
+    return population[0][/\d+/]
   end
 
   def self.string_sanitizer(string)
