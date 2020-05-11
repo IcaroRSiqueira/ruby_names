@@ -21,7 +21,7 @@ end
 def welcome
   puts 'Para pesquisar a frequência de nomes ao longo das décadas digite: 1.'
   puts 'Para pesquisar os nomes mais comuns por UF digite: 2.'
-  puts 'Para pesquisar os nomes mais comuns por município digite 3.'
+  puts 'Para pesquisar os nomes mais comuns por município digite: 3.'
   puts 'Para sair do programa digite: sair.'
   input = $stdin.gets.chomp
   decide(input)

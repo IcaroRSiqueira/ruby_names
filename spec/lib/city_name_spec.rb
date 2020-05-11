@@ -5,99 +5,213 @@ require 'byebug'
 
 describe "uf_name" do
   it "success" do
-    allow($stdin).to receive(:gets).and_return("3\n", "alta floresta d,oeste\n", "sair\n")
+    allow($stdin).to receive(:gets).and_return("3\n", "sao paulo\n", "sair\n")
     db = SQLite3::Database.open "db/cities.db"
     allow_any_instance_of(SQLite3).to receive(:new).and_return(db)
 
     expect { load "./lib/execute.rb" }.to output("Bem vindo ao RubyNames!
 Para pesquisar a frequência de nomes ao longo das décadas digite: 1.
 Para pesquisar os nomes mais comuns por UF digite: 2.
-Para pesquisar os nomes mais comuns por município digite 3.
+Para pesquisar os nomes mais comuns por município digite: 3.
 Para sair do programa digite: sair.
 Digite o nome da cidade (sem acentuação, exemplo: sao paulo) para saber quais os nomes mais comuns no município.
-+-----------+-----------------------------+-------------+
-+-----------+-----------------------------+-------------+
-| Geral     | Alta floresta d,oeste, (RO) | Porcentagem |
-| Nome:     | Ranking:                    | (%):        |
-+-----------+-----------------------------+-------------+
-| MARIA     | 1                           | 4.9466 %    |
-| JOSE      | 2                           | 2.8808 %    |
-| JOAO      | 3                           | 1.6256 %    |
-| ANA       | 4                           | 1.3075 %    |
-| ANTONIO   | 5                           | 1.1767 %    |
-| PAULO     | 6                           | 0.7148 %    |
-| LUCAS     | 7                           | 0.6581 %    |
-| MARCOS    | 8                           | 0.6537 %    |
-| CARLOS    | 9                           | 0.6232 %    |
-| PEDRO     | 10                          | 0.584 %     |
-| LUIZ      | 11                          | 0.5448 %    |
-| FRANCISCO | 12                          | 0.4533 %    |
-| LEANDRO   | 13                          | 0.3966 %    |
-| SEBASTIAO | 14                          | 0.3792 %    |
-| GABRIEL   | 15                          | 0.3748 %    |
-| RAFAEL    | 16                          | 0.3705 %    |
-| DANIEL    | 17                          | 0.353 %     |
-| BRUNO     | 18                          | 0.353 %     |
-| MATEUS    | 19                          | 0.3399 %    |
-| ALINE     | 20                          | 0.3356 %    |
-+-----------+-----------------------------+-------------+
-+------------------+-----------------------------+-------------+
-+------------------+-----------------------------+-------------+
-| Nomes masculinos | Alta floresta d,oeste, (RO) | Porcentagem |
-| Nome:            | Ranking:                    | (%):        |
-+------------------+-----------------------------+-------------+
-| JOSE             | 1                           | 2.8634 %    |
-| JOAO             | 2                           | 1.6169 %    |
-| ANTONIO          | 3                           | 1.1724 %    |
-| PAULO            | 4                           | 0.7104 %    |
-| LUCAS            | 5                           | 0.6537 %    |
-| MARCOS           | 6                           | 0.6407 %    |
-| CARLOS           | 7                           | 0.6232 %    |
-| PEDRO            | 8                           | 0.5796 %    |
-| LUIZ             | 9                           | 0.5448 %    |
-| FRANCISCO        | 10                          | 0.4533 %    |
-| LEANDRO          | 11                          | 0.3966 %    |
-| SEBASTIAO        | 12                          | 0.3792 %    |
-| GABRIEL          | 13                          | 0.3748 %    |
-| RAFAEL           | 14                          | 0.3705 %    |
-| DANIEL           | 15                          | 0.353 %     |
-| BRUNO            | 16                          | 0.3443 %    |
-| MATEUS           | 17                          | 0.3399 %    |
-| FERNANDO         | 18                          | 0.3312 %    |
-| EDUARDO          | 19                          | 0.3182 %    |
-| MARCELO          | 20                          | 0.3138 %    |
-+------------------+-----------------------------+-------------+
-+-----------------+-----------------------------+-------------+
-+-----------------+-----------------------------+-------------+
-| Nomes femininos | Alta floresta d,oeste, (RO) | Porcentagem |
-| Nome:           | Ranking:                    | (%):        |
-+-----------------+-----------------------------+-------------+
-| MARIA           | 1                           | 4.9379 %    |
-| ANA             | 2                           | 1.3031 %    |
-| ALINE           | 4                           | 0.3356 %    |
-| MARCIA          | 3                           | 0.3356 %    |
-| PATRICIA        | 5                           | 0.3269 %    |
-| VANESSA         | 6                           | 0.2876 %    |
-| JULIANA         | 7                           | 0.2789 %    |
-| LUCIANA         | 8                           | 0.2702 %    |
-| ELIANE          | 9                           | 0.2702 %    |
-| SANDRA          | 10                          | 0.2615 %    |
-| ADRIANA         | 11                          | 0.2615 %    |
-| CAMILA          | 12                          | 0.2528 %    |
-| DAIANE          | 14                          | 0.231 %     |
-| ANDREIA         | 13                          | 0.231 %     |
-| JAQUELINE       | 15                          | 0.2266 %    |
-| MARLI           | 17                          | 0.2223 %    |
-| AMANDA          | 16                          | 0.2223 %    |
-| MARLENE         | 18                          | 0.2179 %    |
-| LETICIA         | 19                          | 0.2136 %    |
-| ROSELI          | 20                          | 0.2092 %    |
-+-----------------+-----------------------------+-------------+
++-----------+-----------------+-------------+
++-----------+-----------------+-------------+
+| Geral     | Sao paulo, (SP) | Porcentagem |
+| Nome:     | Ranking:        | (%):        |
++-----------+-----------------+-------------+
+| MARIA     | 1               | 4.7409 %    |
+| JOSE      | 2               | 2.1994 %    |
+| ANA       | 3               | 1.3401 %    |
+| JOAO      | 4               | 1.0574 %    |
+| ANTONIO   | 5               | 0.9871 %    |
+| CARLOS    | 6               | 0.7067 %    |
+| PAULO     | 7               | 0.6831 %    |
+| LUCAS     | 8               | 0.607 %     |
+| GABRIEL   | 9               | 0.5695 %    |
+| PEDRO     | 10              | 0.5632 %    |
+| MARCOS    | 11              | 0.5535 %    |
+| RAFAEL    | 12              | 0.5315 %    |
+| LUIZ      | 13              | 0.5291 %    |
+| FRANCISCO | 14              | 0.5086 %    |
+| MARCELO   | 15              | 0.4777 %    |
+| FELIPE    | 16              | 0.4644 %    |
+| BRUNO     | 17              | 0.4358 %    |
+| EDUARDO   | 18              | 0.4286 %    |
+| RODRIGO   | 19              | 0.4225 %    |
+| GUILHERME | 20              | 0.403 %     |
++-----------+-----------------+-------------+
++------------------+-----------------+-------------+
++------------------+-----------------+-------------+
+| Nomes masculinos | Sao paulo, (SP) | Porcentagem |
+| Nome:            | Ranking:        | (%):        |
++------------------+-----------------+-------------+
+| JOSE             | 1               | 2.1911 %    |
+| JOAO             | 2               | 1.0527 %    |
+| ANTONIO          | 3               | 0.984 %     |
+| CARLOS           | 4               | 0.7036 %    |
+| PAULO            | 5               | 0.68 %      |
+| LUCAS            | 6               | 0.6003 %    |
+| GABRIEL          | 7               | 0.5625 %    |
+| PEDRO            | 8               | 0.5597 %    |
+| MARCOS           | 9               | 0.5511 %    |
+| LUIZ             | 10              | 0.5266 %    |
+| RAFAEL           | 11              | 0.5266 %    |
+| FRANCISCO        | 12              | 0.5068 %    |
+| MARCELO          | 13              | 0.4756 %    |
+| FELIPE           | 14              | 0.4595 %    |
+| BRUNO            | 15              | 0.432 %     |
+| EDUARDO          | 16              | 0.426 %     |
+| RODRIGO          | 17              | 0.4202 %    |
+| GUILHERME        | 18              | 0.3997 %    |
+| LUIS             | 19              | 0.3983 %    |
+| RICARDO          | 20              | 0.3965 %    |
++------------------+-----------------+-------------+
++-----------------+-----------------+-------------+
++-----------------+-----------------+-------------+
+| Nomes femininos | Sao paulo, (SP) | Porcentagem |
+| Nome:           | Ranking:        | (%):        |
++-----------------+-----------------+-------------+
+| MARIA           | 1               | 4.7234 %    |
+| ANA             | 2               | 1.3355 %    |
+| JULIANA         | 3               | 0.3681 %    |
+| FERNANDA        | 4               | 0.3495 %    |
+| MARCIA          | 5               | 0.3474 %    |
+| ADRIANA         | 6               | 0.3378 %    |
+| PATRICIA        | 7               | 0.3334 %    |
+| CAMILA          | 8               | 0.317 %     |
+| SANDRA          | 9               | 0.3135 %    |
+| JULIA           | 10              | 0.3026 %    |
+| BEATRIZ         | 11              | 0.3009 %    |
+| GABRIELA        | 12              | 0.289 %     |
+| ALINE           | 13              | 0.2819 %    |
+| BRUNA           | 14              | 0.2762 %    |
+| RENATA          | 15              | 0.2655 %    |
+| AMANDA          | 16              | 0.2617 %    |
+| MARIANA         | 17              | 0.2609 %    |
+| LETICIA         | 18              | 0.2584 %    |
+| VANESSA         | 19              | 0.2559 %    |
+| LUCIANA         | 20              | 0.2555 %    |
++-----------------+-----------------+-------------+
 Para pesquisar a frequência de nomes ao longo das décadas digite: 1.
 Para pesquisar os nomes mais comuns por UF digite: 2.
-Para pesquisar os nomes mais comuns por município digite 3.
+Para pesquisar os nomes mais comuns por município digite: 3.
 Para sair do programa digite: sair.
 Saindo do RubyNames, até logo!
 ").to_stdout
+  end
+
+
+  it "try unnaccepted input then success" do
+    allow($stdin).to receive(:gets).and_return("3\n", "erro\n", "sao paulo\n", "sair\n")
+    db = SQLite3::Database.open "./spec/support/ufs.db"
+    allow_any_instance_of(SQLite3).to receive(:new).and_return(db)
+
+    expect { load "./lib/execute.rb" }.to output("Bem vindo ao RubyNames!
+Para pesquisar a frequência de nomes ao longo das décadas digite: 1.
+Para pesquisar os nomes mais comuns por UF digite: 2.
+Para pesquisar os nomes mais comuns por município digite: 3.
+Para sair do programa digite: sair.
+Digite o nome da cidade (sem acentuação, exemplo: sao paulo) para saber quais os nomes mais comuns no município.
+Entrada não aceita.
+Digite o nome da cidade (sem acentuação, exemplo: sao paulo) para saber quais os nomes mais comuns no município.
++-----------+-----------------+-------------+
++-----------+-----------------+-------------+
+| Geral     | Sao paulo, (SP) | Porcentagem |
+| Nome:     | Ranking:        | (%):        |
++-----------+-----------------+-------------+
+| MARIA     | 1               | 4.7409 %    |
+| JOSE      | 2               | 2.1994 %    |
+| ANA       | 3               | 1.3401 %    |
+| JOAO      | 4               | 1.0574 %    |
+| ANTONIO   | 5               | 0.9871 %    |
+| CARLOS    | 6               | 0.7067 %    |
+| PAULO     | 7               | 0.6831 %    |
+| LUCAS     | 8               | 0.607 %     |
+| GABRIEL   | 9               | 0.5695 %    |
+| PEDRO     | 10              | 0.5632 %    |
+| MARCOS    | 11              | 0.5535 %    |
+| RAFAEL    | 12              | 0.5315 %    |
+| LUIZ      | 13              | 0.5291 %    |
+| FRANCISCO | 14              | 0.5086 %    |
+| MARCELO   | 15              | 0.4777 %    |
+| FELIPE    | 16              | 0.4644 %    |
+| BRUNO     | 17              | 0.4358 %    |
+| EDUARDO   | 18              | 0.4286 %    |
+| RODRIGO   | 19              | 0.4225 %    |
+| GUILHERME | 20              | 0.403 %     |
++-----------+-----------------+-------------+
++------------------+-----------------+-------------+
++------------------+-----------------+-------------+
+| Nomes masculinos | Sao paulo, (SP) | Porcentagem |
+| Nome:            | Ranking:        | (%):        |
++------------------+-----------------+-------------+
+| JOSE             | 1               | 2.1911 %    |
+| JOAO             | 2               | 1.0527 %    |
+| ANTONIO          | 3               | 0.984 %     |
+| CARLOS           | 4               | 0.7036 %    |
+| PAULO            | 5               | 0.68 %      |
+| LUCAS            | 6               | 0.6003 %    |
+| GABRIEL          | 7               | 0.5625 %    |
+| PEDRO            | 8               | 0.5597 %    |
+| MARCOS           | 9               | 0.5511 %    |
+| LUIZ             | 10              | 0.5266 %    |
+| RAFAEL           | 11              | 0.5266 %    |
+| FRANCISCO        | 12              | 0.5068 %    |
+| MARCELO          | 13              | 0.4756 %    |
+| FELIPE           | 14              | 0.4595 %    |
+| BRUNO            | 15              | 0.432 %     |
+| EDUARDO          | 16              | 0.426 %     |
+| RODRIGO          | 17              | 0.4202 %    |
+| GUILHERME        | 18              | 0.3997 %    |
+| LUIS             | 19              | 0.3983 %    |
+| RICARDO          | 20              | 0.3965 %    |
++------------------+-----------------+-------------+
++-----------------+-----------------+-------------+
++-----------------+-----------------+-------------+
+| Nomes femininos | Sao paulo, (SP) | Porcentagem |
+| Nome:           | Ranking:        | (%):        |
++-----------------+-----------------+-------------+
+| MARIA           | 1               | 4.7234 %    |
+| ANA             | 2               | 1.3355 %    |
+| JULIANA         | 3               | 0.3681 %    |
+| FERNANDA        | 4               | 0.3495 %    |
+| MARCIA          | 5               | 0.3474 %    |
+| ADRIANA         | 6               | 0.3378 %    |
+| PATRICIA        | 7               | 0.3334 %    |
+| CAMILA          | 8               | 0.317 %     |
+| SANDRA          | 9               | 0.3135 %    |
+| JULIA           | 10              | 0.3026 %    |
+| BEATRIZ         | 11              | 0.3009 %    |
+| GABRIELA        | 12              | 0.289 %     |
+| ALINE           | 13              | 0.2819 %    |
+| BRUNA           | 14              | 0.2762 %    |
+| RENATA          | 15              | 0.2655 %    |
+| AMANDA          | 16              | 0.2617 %    |
+| MARIANA         | 17              | 0.2609 %    |
+| LETICIA         | 18              | 0.2584 %    |
+| VANESSA         | 19              | 0.2559 %    |
+| LUCIANA         | 20              | 0.2555 %    |
++-----------------+-----------------+-------------+
+Para pesquisar a frequência de nomes ao longo das décadas digite: 1.
+Para pesquisar os nomes mais comuns por UF digite: 2.
+Para pesquisar os nomes mais comuns por município digite: 3.
+Para sair do programa digite: sair.
+Saindo do RubyNames, até logo!
+").to_stdout
+  end
+
+  it "status not 200" do
+    allow($stdin).to receive(:gets).and_return("3\n", "sao paulo\n")
+    json = File.read('./spec/support/empty.json')
+    url = "https://servicodados.ibge.gov.br/api/v2/censos/nomes/ranking?localidade=3550308"
+    uri = URI.parse(URI.escape(url))
+    object = double
+    allow(Net::HTTP).to receive(:get_response).with(uri).and_return(object)
+    allow(object).to receive(:body).and_return(json)
+    allow(object).to receive(:code).and_return(400)
+    allow($stdout).to receive(:puts) # esta linha limpa a saida durante o teste
+
+    expect { load "./lib/execute.rb" }.to raise_error('Sem conexão com o servidor no momento.')
   end
 end

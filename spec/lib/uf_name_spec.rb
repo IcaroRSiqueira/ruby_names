@@ -12,7 +12,7 @@ describe "uf_name" do
     expect { load "./lib/execute.rb" }.to output("Bem vindo ao RubyNames!
 Para pesquisar a frequência de nomes ao longo das décadas digite: 1.
 Para pesquisar os nomes mais comuns por UF digite: 2.
-Para pesquisar os nomes mais comuns por município digite 3.
+Para pesquisar os nomes mais comuns por município digite: 3.
 Para sair do programa digite: sair.
 Digite a sigla da UF (exemplo: SP) para saber quais os nomes mais comuns no estado
 +-----------+----------+----------+
@@ -95,7 +95,7 @@ Digite a sigla da UF (exemplo: SP) para saber quais os nomes mais comuns no esta
 +-----------------+----------+----------+
 Para pesquisar a frequência de nomes ao longo das décadas digite: 1.
 Para pesquisar os nomes mais comuns por UF digite: 2.
-Para pesquisar os nomes mais comuns por município digite 3.
+Para pesquisar os nomes mais comuns por município digite: 3.
 Para sair do programa digite: sair.
 Saindo do RubyNames, até logo!
 ").to_stdout
@@ -109,7 +109,7 @@ Saindo do RubyNames, até logo!
     expect { load "./lib/execute.rb" }.to output("Bem vindo ao RubyNames!
 Para pesquisar a frequência de nomes ao longo das décadas digite: 1.
 Para pesquisar os nomes mais comuns por UF digite: 2.
-Para pesquisar os nomes mais comuns por município digite 3.
+Para pesquisar os nomes mais comuns por município digite: 3.
 Para sair do programa digite: sair.
 Digite a sigla da UF (exemplo: SP) para saber quais os nomes mais comuns no estado
 Entrada não aceita.
@@ -194,7 +194,7 @@ Digite a sigla da UF (exemplo: SP) para saber quais os nomes mais comuns no esta
 +-----------------+----------+----------+
 Para pesquisar a frequência de nomes ao longo das décadas digite: 1.
 Para pesquisar os nomes mais comuns por UF digite: 2.
-Para pesquisar os nomes mais comuns por município digite 3.
+Para pesquisar os nomes mais comuns por município digite: 3.
 Para sair do programa digite: sair.
 Saindo do RubyNames, até logo!
 ").to_stdout
