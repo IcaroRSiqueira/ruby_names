@@ -7,7 +7,7 @@ require_relative 'tables.rb'
 
 class CityName
 
-  def self.choose_city
+  def self.user_choose_city
     puts 'Digite o nome da cidade (sem acentuação, exemplo: sao paulo) para saber quais os nomes mais comuns no município.'
     input = $stdin.gets.chomp.downcase
     CityName.select_city(input)
@@ -21,22 +21,21 @@ class CityName
       url_fem = "https://servicodados.ibge.gov.br/api/v2/censos/nomes/ranking?localidade=#{city[0]}&sexo=F"
     rescue
       puts 'Entrada não aceita.'
-      return CityName.choose_city
+      return CityName.user_choose_city
     end
-    general = CityName.names_getter(url_all)
-    male = CityName.names_getter(url_mal)
-    female = CityName.names_getter(url_fem)
-    population = CityName.get_total_population(city[0])
-
-    puts Tables.city_table_maker(general, 'Geral', city, population)
-    puts Tables.city_table_maker(male, 'Nomes masculinos', city, population)
-    puts Tables.city_table_maker(female, 'Nomes femininos', city, population)
+    responses = [url_all, url_mal, url_fem].map do |url|
+      ApiCommunication.get_response(url)
+    end
+    population = Database.get_total_city_population(city[0])
+    puts Tables.city_table_maker(responses[0], 'Geral', city, population)
+    puts Tables.city_table_maker(responses[1], 'Nomes masculinos', city, population)
+    puts Tables.city_table_maker(responses[2], 'Nomes femininos', city, population)
     welcome
   end
 
   def self.check_city_name(input)
     db = SQLite3::Database.new "db/cities.db"
-    CityName.create_table(db)
+    Database.create_city_db(db)
     if db.execute( "select * from cities" ).empty?
       CityName.get_cities(db)
     end
@@ -47,50 +46,8 @@ class CityName
 
   def self.get_cities(db)
     url = "https://servicodados.ibge.gov.br/api/v1/localidades/municipios"
-    uri = URI.parse(URI.escape(url))
-    response = Net::HTTP.get_response(URI.parse(URI.escape(url)))
-    cities = JSON.parse(response.body, symbolize_names: true)
-    CityName.check_db(db, cities)
-  end
-
-  def self.create_table(db)
-    db.execute <<-SQL
-      create table if not exists cities (
-        id varchar(500),
-        nome varchar(500),
-        uf varchar(50)
-      );
-    SQL
-  end
-
-  def self.check_db(db, cities)
-    if db.execute( "select * from cities" ).empty?
-      cities.each do |city|
-        db.execute("INSERT INTO cities (id, nome, uf)
-              VALUES (?, ?, ?)", ["#{city[:id]}",
-                                "#{CityName.string_sanitizer(city[:nome].downcase)}",
-                                "#{city[:microrregiao][:mesorregiao][:UF][:sigla]}"])
-      end
-    end
-  end
-
-  def self.names_getter(url)
-    uri = URI.parse(URI.escape(url))
-    response = Net::HTTP.get_response(URI.parse(URI.escape(url)))
-    ApiCommunication.check_status(response.code)
-    names = JSON.parse(response.body, symbolize_names: true)
-    names
-  end
-
-  def self.get_total_population(city_id)
-    csv = CSV.read('db/populacao_2019.csv', :quote_char => "|")
-    population = []
-    csv.each do |row|
-      if row[0] == "\"MU\"" && row[1] == "\"#{city_id}\""
-        population << row[3]
-      end
-    end
-    return population[0][/\d+/]
+    cities = ApiCommunication.get_response(url)
+    Database.check_db(db, cities)
   end
 
   def self.string_sanitizer(string)

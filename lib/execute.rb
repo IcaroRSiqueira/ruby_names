@@ -5,11 +5,11 @@ require_relative 'city_name.rb'
 def decide(input)
   case input.downcase
   when "1"
-    DecadeName.choose_name
+    DecadeName.user_choose_name
   when "2"
-    UfName.choose_uf
+    UfName.user_choose_uf
   when "3"
-    CityName.choose_city
+    CityName.user_choose_city
   when "sair"
     puts "Saindo do RubyNames, até logo!"
   else
