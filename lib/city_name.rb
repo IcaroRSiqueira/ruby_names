@@ -2,7 +2,11 @@ require 'json'
 require 'terminal-table'
 require 'net/http'
 require "sqlite3"
+require_relative 'api_communication.rb'
+require_relative 'tables.rb'
+
 class CityName
+
   def self.choose_city
     puts 'Digite o nome da cidade (sem acentuação, exemplo: sao paulo) para saber quais os nomes mais comuns no município.'
     input = $stdin.gets.chomp.downcase
@@ -22,9 +26,11 @@ class CityName
     general = CityName.names_getter(url_all)
     male = CityName.names_getter(url_mal)
     female = CityName.names_getter(url_fem)
-    CityName.table_maker(general, 'Geral', city)
-    CityName.table_maker(male, 'Nomes masculinos', city)
-    CityName.table_maker(female, 'Nomes femininos', city)
+    population = CityName.get_total_population(city[0])
+
+    puts Tables.city_table_maker(general, 'Geral', city, population)
+    puts Tables.city_table_maker(male, 'Nomes masculinos', city, population)
+    puts Tables.city_table_maker(female, 'Nomes femininos', city, population)
     welcome
   end
 
@@ -68,36 +74,12 @@ class CityName
     end
   end
 
-  def self.check_status(code)
-    unless code.to_i == 200
-      raise "Sem conexão com o servidor no momento."
-    end
-  end
-
   def self.names_getter(url)
     uri = URI.parse(URI.escape(url))
     response = Net::HTTP.get_response(URI.parse(URI.escape(url)))
-    CityName.check_status(response.code)
+    ApiCommunication.check_status(response.code)
     names = JSON.parse(response.body, symbolize_names: true)
     names
-  end
-
-  def self.table_maker(names, title, city)
-    population = CityName.get_total_population(city[0])
-    rows = []
-    rows << :separator
-    rows << ["#{title}",
-              "#{city[1].capitalize}, (#{city[2]})",
-              "Porcentagem"]
-    rows << ["Nome:", "Ranking:", "(%):"]
-    rows << :separator
-    names[0][:res].each do |i|
-      rows << ["#{i[:nome]}".tr('[', ''),
-                "#{i[:ranking]}",
-                "#{(i[:frequencia]/population.to_f * 100).round(4)} %"]
-    end
-    table = Terminal::Table.new :rows => rows
-    puts table
   end
 
   def self.get_total_population(city_id)

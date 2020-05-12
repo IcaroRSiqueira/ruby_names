@@ -3,8 +3,11 @@ require 'terminal-table'
 require 'net/http'
 require "sqlite3"
 require 'byebug'
+require_relative 'api_communication.rb'
+require_relative 'tables.rb'
 
 class UfName
+
   def self.choose_uf
     puts 'Digite a sigla da UF (exemplo: SP) para saber quais os nomes mais comuns no estado'
     input = $stdin.gets.chomp.upcase
@@ -24,9 +27,11 @@ class UfName
     general = UfName.names_getter(url_all)
     male = UfName.names_getter(url_mal)
     female = UfName.names_getter(url_fem)
-    UfName.table_maker(general, 'Geral', uf)
-    UfName.table_maker(male, 'Nomes masculinos', uf)
-    UfName.table_maker(female, 'Nomes femininos', uf)
+    population = UfName.get_total_population(uf[0])
+
+    puts Tables.uf_table_maker(general, 'Geral', uf, population)
+    puts Tables.uf_table_maker(male, 'Nomes masculinos', uf, population)
+    puts Tables.uf_table_maker(female, 'Nomes femininos', uf, population)
     welcome
   end
 
@@ -68,34 +73,12 @@ class UfName
     end
   end
 
-  def self.check_status(code)
-    unless code.to_i == 200
-      raise "Sem conexão com o servidor no momento."
-    end
-  end
-
   def self.names_getter(url)
     uri = URI.parse(URI.escape(url))
     response = Net::HTTP.get_response(URI.parse(URI.escape(url)))
-    UfName.check_status(response.code)
+    ApiCommunication.check_status(response.code)
     names = JSON.parse(response.body, symbolize_names: true)
     names
-  end
-
-  def self.table_maker(names, title, uf)
-    population = UfName.get_total_population(uf[0])
-    rows = []
-    rows << :separator
-    rows << ["#{title}", " ", " "]
-    rows << ["Nome:", "Ranking:", "(%) #{uf[1]}"]
-    rows << :separator
-    names[0][:res].each do |i|
-      rows << ["#{i[:nome]}".tr('[', ''),
-                "#{i[:ranking]}",
-                "#{(i[:frequencia]/population.to_f * 100).round(4)} %"]
-    end
-    table = Terminal::Table.new :rows => rows
-    puts table
   end
 
   def self.get_total_population(sigla_uf)
