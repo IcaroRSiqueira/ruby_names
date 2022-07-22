@@ -10,14 +10,9 @@ GEM
     byebug (11.1.3)
     concurrent-ruby (1.1.6)
     diff-lcs (1.3)
-    httparty (0.13.7)
-      json (~> 1.8)
-      multi_xml (>= 0.5.2)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
-    json (1.8.6)
     minitest (5.14.0)
-    multi_xml (0.6.0)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
       rspec-expectations (~> 3.9.0)
@@ -35,7 +30,7 @@ GEM
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
     thread_safe (0.3.6)
-    tzinfo (1.2.7)
+    tzinfo (1.2.10)
       thread_safe (~> 0.1)
     unicode-display_width (1.7.0)
     zeitwerk (2.3.0)
@@ -46,7 +41,6 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   byebug (~> 11.1, >= 11.1.3)
-  httparty
   rspec (~> 3.6)
   sqlite3 (~> 1.4, >= 1.4.2)
   terminal-table (~> 1.8)
